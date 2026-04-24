@@ -25,14 +25,15 @@ The system processes the IBM HR Analytics Dataset containing 1,470 employees and
 
 ## Project Structure
 
+```
 HR-Analytics-AI-System/
-
+│
 ├── data/
 │   ├── WA_Fn-UseC_-HR-Employee-Attrition.csv
 │   ├── hr_data.parquet
 │   ├── hr_data_preprocessed.parquet
 │   └── hr_data_engineered.parquet
-
+│
 ├── notebooks/
 │   ├── 01_data_ingestion.ipynb
 │   ├── 02_data_preprocessing.ipynb
@@ -41,14 +42,14 @@ HR-Analytics-AI-System/
 │   ├── 05_model_development.ipynb
 │   ├── 06_clustering.ipynb
 │   └── 07_insights.ipynb
-
+│
 ├── src/
 │   └── dashboard.py
-
+│
 ├── models/
 │   ├── attrition_model/
 │   └── performance_model/
-
+│
 ├── outputs/
 │   ├── attrition_distribution.png
 │   ├── attrition_by_department.png
@@ -63,12 +64,11 @@ HR-Analytics-AI-System/
 │   ├── elbow_method.png
 │   ├── cluster_visualization.png
 │   └── high_risk_analysis.png
-
+│
 ├── requirements.txt
 ├── packages.txt
 └── README.md
-
----
+```
 
 ## Dataset
 
