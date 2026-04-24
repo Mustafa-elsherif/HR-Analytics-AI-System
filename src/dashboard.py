@@ -58,28 +58,37 @@ def init_spark():
 @st.cache_data
 def load_data():
     spark = init_spark()
-    df_spark = spark.read.parquet(
-        r"C:\HR-Analytics-AI-System\data\hr_data_engineered.parquet"
-    )
-    df_original = spark.read.parquet(
-        r"C:\HR-Analytics-AI-System\data\hr_data.parquet"
-    )
-    cluster_features = ["Age", "MonthlyIncome", "JobLevel",
+    
+    
+    df_spark = spark.read.parquet("data/hr_data_engineered.parquet")
+    df_original = spark.read.parquet("data/hr_data.parquet")
+    
+    cluster_features = ["Age", "MonthlyIncome", "JobLevel", 
                         "TotalWorkingYears", "YearsAtCompany", "RiskScore"]
+    
+   
+    from pyspark.ml.feature import VectorAssembler, StandardScaler
+    from pyspark.ml.clustering import KMeans
+
     assembler = VectorAssembler(inputCols=cluster_features, outputCol="features_raw")
     df_assembled = assembler.transform(df_spark)
-    scaler = StandardScaler(inputCol="features_raw", outputCol="features_scaled",
+    
+    scaler = StandardScaler(inputCol="features_raw", outputCol="features_scaled", 
                             withStd=True, withMean=True)
     df_scaled = scaler.fit(df_assembled).transform(df_assembled)
+    
     kmeans = KMeans(featuresCol="features_scaled", predictionCol="cluster", k=3, seed=42)
     df_clustered = kmeans.fit(df_scaled).transform(df_scaled)
+    
     df = df_clustered.toPandas()
     df_orig = df_original.toPandas()
+    
     df["cluster_name"] = df["cluster"].map({
         0: "Mid-Career Stable",
         1: "Young High-Risk",
         2: "Senior High-Income"
     })
+    
     return df, df_orig
 
 def chart_layout(fig, height=380):
