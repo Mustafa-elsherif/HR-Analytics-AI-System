@@ -45,8 +45,11 @@ WHITE = "#ffffff"
 
 @st.cache_resource
 def init_spark():
+    from pyspark.sql import SparkSession
     spark = SparkSession.builder \
         .appName("HR Analytics Dashboard") \
+        .master("local[*]") \
+        .config("spark.driver.bindAddress", "127.0.0.1") \
         .config("spark.sql.legacy.timeParserPolicy", "LEGACY") \
         .getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
